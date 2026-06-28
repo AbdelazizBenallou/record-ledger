@@ -31,7 +31,7 @@ class NotificationService {
       linux: linuxSettings,
     );
 
-    await _plugin.initialize(settings);
+    await _plugin.initialize(settings: settings);
     _initialized = true;
   }
 
@@ -94,6 +94,11 @@ class NotificationService {
       linux: linuxDetails,
     );
 
-    await _plugin.show(id, title, body, details);
+    await _plugin.show(
+      id: id,
+      title: title,
+      body: body,
+      notificationDetails: details,
+    );
   }
 }
