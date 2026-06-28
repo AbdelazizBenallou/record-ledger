@@ -1,0 +1,53 @@
+name: app_template
+description: "Flutter App Template"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.8
+  sqflite: ^2.4.3
+  sqflite_common_ffi: ^2.3.0
+  path: ^1.9.0
+  shared_preferences: ^2.5.5
+  flutter_localizations:
+    sdk: flutter
+  image_picker: ^1.1.2
+  path_provider: ^2.1.5
+  url_launcher: ^6.3.1
+  font_awesome_flutter: ^11.0.0
+  flutter_local_notifications: ^18.0.1
+  fl_chart: ^0.70.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/fonts/en/
+    - assets/fonts/ar/
+    - assets/images/
+
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/en/Roboto-Regular.ttf
+        - asset: assets/fonts/en/Roboto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/en/Roboto-SemiBold.ttf
+          weight: 600
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/ar/Cairo-Regular.ttf
+        - asset: assets/fonts/ar/Cairo-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/ar/Cairo-SemiBold.ttf
+          weight: 600
