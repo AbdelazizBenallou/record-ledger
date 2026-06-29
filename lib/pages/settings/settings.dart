@@ -54,7 +54,22 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           _sectionHeader(t.translate('store_details'), colors),
           const SizedBox(height: 8),
-          _buildStoreCard(t, theme, colors),
+          _SettingsTile(
+            icon: Icons.store_rounded,
+            title: t.translate('manage_store'),
+            subtitle: _store?.name ?? '',
+            onTap: () {
+              if (_store != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => StoreDetailsPage(storeId: _store!.id),
+                  ),
+                );
+              }
+            },
+            colors: colors,
+          ),
           const SizedBox(height: 28),
           _sectionHeader(t.translate('preferences'), colors),
           const SizedBox(height: 8),
@@ -114,93 +129,6 @@ class _SettingsPageState extends State<SettingsPage> {
           fontWeight: FontWeight.w700,
           color: colors.onSurface.withValues(alpha: 0.4),
           letterSpacing: 1.2,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStoreCard(AppLocalizations t, ThemeData theme, ColorScheme colors) {
-    if (_store == null) return const SizedBox.shrink();
-
-    return Container(
-      decoration: BoxDecoration(
-        color: colors.surfaceContainerHighest.withValues(alpha: 0.4),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          borderRadius: BorderRadius.circular(14),
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => StoreDetailsPage(storeId: _store!.id),
-              ),
-            );
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
-                  decoration: BoxDecoration(
-                    color: colors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: Icon(
-                    Icons.store_rounded,
-                    size: 24,
-                    color: colors.primary,
-                  ),
-                ),
-                const SizedBox(width: 14),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _store!.name,
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: colors.onSurface,
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        _store!.address,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: colors.onSurface.withValues(alpha: 0.5),
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  decoration: BoxDecoration(
-                    color: colors.primary.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Text(
-                    t.translate('edit'),
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.w600,
-                      color: colors.primary,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
         ),
       ),
     );

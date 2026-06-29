@@ -9,6 +9,8 @@ import 'l10n/locale_preferences.dart';
 import 'preferences/theme_preferences.dart';
 import 'theme/my_themes.dart';
 import 'db/db_helper.dart';
+import 'db/repositories/store_repository.dart';
+import 'models/store.dart';
 import 'services/notification_service.dart';
 import 'pages/splash/splash_screen.dart';
 
@@ -21,6 +23,18 @@ void main() async {
   }
 
   await DatabaseHelper.instance.database;
+  final storeRepo = StoreRepository();
+  final existing = await storeRepo.getById('default_store');
+  if (existing == null) {
+    await storeRepo.insert(Store(
+      id: 'default_store',
+      name: 'محل السلام',
+      address: '',
+      phone: '',
+      currency: 'DZD',
+      createdAt: DateTime.now(),
+    ));
+  }
   await NotificationService.instance.init();
   NotificationService.instance.checkDuePayments('default_store');
 

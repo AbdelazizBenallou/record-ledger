@@ -158,6 +158,7 @@ class AppLocalizations {
     'chart_week': 'Week',
     'no_data_chart': 'No data available',
     'others': 'Others',
+    'manage_store': 'Manage Store',
     'manage_security': 'Login, password & data management',
   };
 
@@ -297,6 +298,7 @@ class AppLocalizations {
     'chart_week': 'Semaine',
     'no_data_chart': 'Aucune donnée disponible',
     'others': 'Autres',
+    'manage_store': 'Gérer le magasin',
     'manage_security': 'Connexion, mot de passe & gestion des données',
   };
 
@@ -436,6 +438,7 @@ class AppLocalizations {
     'chart_week': 'أسبوع',
     'no_data_chart': 'لا توجد بيانات متاحة',
     'others': 'آخرون',
+    'manage_store': 'إدارة المتجر',
     'manage_security': 'تسجيل الدخول، كلمة المرور وإدارة البيانات',
   };
 }
