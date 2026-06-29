@@ -87,52 +87,44 @@ class _HomeState extends State<Home> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         scrolledUnderElevation: 0,
-        leading: InkWell(
-          borderRadius: BorderRadius.circular(12),
-          onTap: () async {
-            setState(() => _notificationCount = 0);
-            await Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const NotificationsPage()),
-            );
-            _loadData();
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: Stack(
-              clipBehavior: Clip.none,
-              children: [
-                const Icon(Icons.notifications_outlined, size: 24),
-                if (_notificationCount > 0)
-                  Positioned(
-                    top: -4,
-                    right: -6,
-                    child: Container(
-                      padding: const EdgeInsets.all(4),
-                      decoration: const BoxDecoration(
-                        color: Color(0xFFEF4444),
-                        shape: BoxShape.circle,
-                      ),
-                      constraints: const BoxConstraints(
-                        minWidth: 18,
-                        minHeight: 18,
-                      ),
-                      child: Text(
-                        '$_notificationCount',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 10,
-                          fontWeight: FontWeight.bold,
-                          height: 1,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
+        leading: _store != null
+            ? GestureDetector(
+                onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => StoreDetailsPage(storeId: _store!.id),
                   ),
-              ],
-            ),
-          ),
-        ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.only(start: 8),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 34,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          Icons.store_outlined,
+                          size: 20,
+                          color: theme.colorScheme.onPrimaryContainer,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        _store!.name,
+                        style: theme.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            : null,
         title: Text(
           selectedIndex == 0
               ? ''
@@ -145,43 +137,52 @@ class _HomeState extends State<Home> {
               : t.translate('settings'),
         ),
         actions: [
-          if (_store != null)
-            GestureDetector(
-              onTap: () => Navigator.push(
+          InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () async {
+              setState(() => _notificationCount = 0);
+              await Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => StoreDetailsPage(storeId: _store!.id),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsetsDirectional.only(end: 8),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _store!.name,
-                      style: theme.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
+                MaterialPageRoute(builder: (_) => const NotificationsPage()),
+              );
+              _loadData();
+            },
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  const Icon(Icons.notifications_outlined, size: 24),
+                  if (_notificationCount > 0)
+                    Positioned(
+                      top: -4,
+                      right: -6,
+                      child: Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFEF4444),
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: const BoxConstraints(
+                          minWidth: 18,
+                          minHeight: 18,
+                        ),
+                        child: Text(
+                          '$_notificationCount',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                            height: 1,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
-                    const SizedBox(width: 6),
-                    Container(
-                      width: 34,
-                      height: 34,
-                      decoration: BoxDecoration(
-                        color: theme.colorScheme.primaryContainer,
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Icon(
-                        Icons.store_outlined,
-                        size: 20,
-                        color: theme.colorScheme.onPrimaryContainer,
-                      ),
-                    ),
-                  ],
-                ),
+                ],
               ),
             ),
+          ),
         ],
       ),
       body: Directionality(
@@ -346,10 +347,7 @@ class _HomeState extends State<Home> {
               ),
               const SizedBox(height: 4),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 3,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.12),
                   borderRadius: BorderRadius.circular(6),
@@ -430,7 +428,8 @@ class _HomeState extends State<Home> {
           label: t.translate('customer_count'),
           value: '${metrics.customerCount}',
           color: const Color(0xFF6366F1),
-          subtitle: '${metrics.activeDebtCount} ${t.translate('active_debts').toLowerCase()}',
+          subtitle:
+              '${metrics.activeDebtCount} ${t.translate('active_debts').toLowerCase()}',
         ),
         MetricCard(
           icon: Icons.warning_amber_rounded,
@@ -448,7 +447,8 @@ class _HomeState extends State<Home> {
               '${metrics.todayIncome.toStringAsFixed(2)} ${t.translate('dzd')}',
           color: const Color(0xFF10B981),
           smallValue: true,
-          subtitle: '${t.translate('period').toLowerCase()} · ${_periodFilter == PeriodFilter.month ? t.translate('month') : t.translate('week')}',
+          subtitle:
+              '${t.translate('period').toLowerCase()} · ${_periodFilter == PeriodFilter.month ? t.translate('month') : t.translate('week')}',
         ),
         MetricCard(
           icon: Icons.receipt_long_outlined,
@@ -524,13 +524,13 @@ class _HomeState extends State<Home> {
                   ),
                 ),
                 const SizedBox(height: 12),
-                  Text(
-                    t.translate('no_operations'),
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
-                      fontWeight: FontWeight.w500,
-                    ),
+                Text(
+                  t.translate('no_operations'),
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: theme.colorScheme.onSurface.withValues(alpha: 0.5),
+                    fontWeight: FontWeight.w500,
                   ),
+                ),
               ],
             ),
           )
@@ -613,7 +613,9 @@ class _HomeState extends State<Home> {
                           Text(
                             op.note!,
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha: 0.55),
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.55,
+                              ),
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -622,7 +624,9 @@ class _HomeState extends State<Home> {
                           Text(
                             label,
                             style: theme.textTheme.bodySmall?.copyWith(
-                              color: theme.colorScheme.onSurface.withValues(alpha: 0.55),
+                              color: theme.colorScheme.onSurface.withValues(
+                                alpha: 0.55,
+                              ),
                             ),
                           ),
                       ],
